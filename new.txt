@@ -1,3 +1,121 @@
+Computer Science concepts
+
+
+Computer-> a piece of tape that holds ones and zeros along with a device that can read and write to it
+it is called a turning machine 
+Turning Machine-> it can compute anything in theory 
+Central Processing Unit(core of the computer)->made of a piece of silicon that contains billions of transistors
+Transistors->microspoic on and off switch and the value at one of these switches 
+BIT->smallest piece of information a computer can use
+BYTE->one byte can represent 256 different values
+ASCII Character Encoding->when keys are pressed on the keyboard the character produced is actually mapped to a binary value 
+in a character encoding like ascii or utf-8
+Binary-> a system for counting like base-10 when counting on your fingers
+Hexadecimal base-16 format->10 numbers and 6 letters can represent a four bit called a nibble
+Nibble-> four bit digit
+Machine Code->binary format which can be decoded and executed by the cpu
+RAM->it is used to store data for the applications 
+Memory Address-> in which cpu can read and write too
+Input/Output->input device(keyboard and mouse) and output device(monitor)
+Operating System kernals-> like windows,macos and linux that control all hardware resources via device
+drivers
+Shell->program that exposes the operating system to the end user it wraps the kernel
+Command Line interface->not only connect to your own computer but with secure shell protocol
+SSL-> it connect with remote computers over the network
+Mainframe->bulk data processing computer 
+Progamming Language->a tool that uses abstarction principle 
+Abstraction Principle->to make computers practical work with humans by simplying different systems layer
+by layer
+Interpreted-> a program that executes the code line by line(interpreter)
+Compiled->  a program that converts the source code into machine code in advance before the cpu attempts to 
+excute it
+Executable File->that can be run by the operating system without any extra dependencies  
+Data Types->to represent data in the code
+Variable->a container that can be reuse some else in your code
+Dynamically typed language->we don't need a program to tell which data type is assigned to a variable
+Statically typed->specify the data type of a variable in the code
+Pointer-> a variable whose value is memory address of another variable which can be used for low-level memory control
+Garbage Collector->which automatically allocates and deallocates the memory when an object is no longer
+referenced in the program 
+Int-> typically used to represent whole numbers which may or maybe not be signed 
+Signed or Unsigned-> to represent negative numbers 
+Float->there is enough memory to represent a certain  range of numbers at a certain position 
+basically like a form of scientific notation to make computers faster
+Double->that doubles the amount of memory used for number
+Char->represnets a character data type
+String->represnets multiple characters together
+Big Endian->the memory stored in order with the most significant byte and smallest memory address
+Little Endina->least significant byte stored in smallest memory address
+Data Structures-> they are essential 
+Array or List->like a shopping list that  organizes multiple data points in order which maintains an index
+starting from zero and goes all the way up for every new item in list or array
+Linked List->where each item will have a pointer to the next item in front of it
+Stack->last in first out principle stacking a set of plates    
+Queue->first in first out principle
+Hash-> which can be called array list or dictionary it gives a collection of key-value pairs
+Trees->organizes nodes in a hierachy that can be often traverse quickly it rigid through
+Graph->to connect multiple nodes together in a virutally unlimited number of ways
+node for data and edge for a relationship between data points 
+Algorithm->a code that solves a problem
+Function-> a block of code that takes an input and does something and returns an output 
+Arguments-> input parameters
+Operators
+Boolean Data type-> true or false
+Statement-> code doing something which handles conditional logic
+Conditional logic-> if condition is true execute this code otherwise short circuit  and run the code inside of the
+else block
+While loop-> run the statement again and again until the condition inside the parenetheses becomes false
+Iterable-> like a for loop that can run some code for every object in an array or Iterable data Structure
+For loop 
+Void-> no return value
+Recursion-> a funciton calling iteself
+Call Stack->a short term memory for executing the code
+Stack Overflow error
+to aviod this the algo needs a base case
+Big-O notation-> standarad format for approximating   the Performance of an algorithm at scale
+Time Complexity-> how fast your alogirthm runs  
+Space Complexity->which deals   with how much memory required to run it
+Brute Force approach->possible combinations to solve a particular problem
+Divide and Conquer-> like binary search
+Dynamic Programming->where a problem is broken down into multiple sub problems and 
+result of each computation is stored for later use
+Memoization-> if a function is alraedy been called it will use the existing value instead of recomputing
+from scratch
+Greedy algo-> that will make a choice  that is benefical in the short term without considering the problem as whole
+Dijkstra's Shortest Path->
+Backtracking-> taking a more incremental apporach by looking at all possible options like a rat in the 
+maze exploring all diffrenet options
+Declarative->code describes what your program does and the outcome but does not care about the 
+control flow
+Functional languages-> uses Declarative style like hashkell
+Imperative->using statement like if and while providing explicit instructions to provide an outcome
+Procedural languages-> imperative style like c
+Multiparadigm languages->like python js swift kotlin support all these options at the same time
+Object Oritened Programming-> 
+class property methods inheritance design patterns 
+instantiate objects which are chunks of data living inside your memory
+Heap->unlike the call stack  can grow and shrink based on your application it allows you to pass
+objects as reference which can use sample object in multiple varaibles withtout increasing the memory
+footprint
+Threads->takes the physical cpu core and breaks into virtual cores that allows you to run the code
+simultaneously  
+Parallelism->where the code is executed on 2-3 different threads at the same time
+Concurrency->like an event-loop coroutines that can pause or delay normal execution code to handle
+mutliple jobs on a single thread  at the same time
+Bare metal cpu in ram->
+Virtual Machine
+Ip address
+URL
+Domain Name system
+Tcp handshake
+Packets 
+Secure sokcets layer
+HTTP
+Application Programming Interface 
+Printers
+
+
+
 Rest - > simple stateless follows 
 1. What is REST?
 REST (Representational State Transfer) is an API architectural style used to design web services.
@@ -7,6 +125,7 @@ Resources are identified using URLs
 Communication happens over HTTP
 Data is usually exchanged in JSON
 Example
+
 https://api.example.com/users/101
 
 2. Key Principles of REST
@@ -841,4 +960,25 @@ Unit of Work: This pattern maintains a list of objects affected by a business tr
 Data Access Object (DAO): A pattern used to abstract the data access logic to a separate, lightweight interface, which can be a layer within a larger ORM implementation
 
 
-  
+- 
++ # Use official Python runtime as base image
++ FROM python:3.11-slim
++ 
++ # Set working directory in container
++ WORKDIR /app
++ 
++ # Copy requirements file
++ COPY requirements.txt .
++ 
++ # Install Python dependencies
++ RUN pip install --no-cache-dir -r requirements.txt
++ 
++ # Copy application code
++ COPY main.py .
++ 
++ # Expose port 8000
++ EXPOSE 8000
++ 
++ # Command to run the application
++ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
++ 
