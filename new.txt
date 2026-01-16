@@ -1025,3 +1025,9 @@ GitHub Client ID
 Ov23lim6OGyn4mV4vL25
 Github Client Secrets
 374db31f2fbe30de8c85f66570e28dd9f029bfde
+
+
+
+Authentication Object Types
+Tokens, Biometrics, Single Sign On  and Passwords 
+
