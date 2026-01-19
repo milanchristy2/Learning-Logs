@@ -1031,3 +1031,47 @@ Github Client Secrets
 Authentication Object Types
 Tokens, Biometrics, Single Sign On  and Passwords 
 
+Single Sign on vs Oauth
+when we do sign in google or sign in facebook it it open authorization->oauth2
+when we are able to access gmail,google drive,youtube using a single login-> sso
+
+the main difference is oauth2.0->we are authorizing a third party to access some of our data(photos or reading a calander)
+sso->simplifying login bascially one login for multiple services in corporate 
+
+authenication is the process of checking if someone is who they say they are
+user->enter email,password->(does user exist)backend->welcome to website(yes) or go away(no)
+authenication in simple words mean it decides if you are allowed entry or not
+it is the backend server that verifies the server's credentials to make sure you are trusted user before granting you access to 
+website or application 
+
+
+authorization is the process of determining what actions or parts of a website or app you're allowed to access after you've been
+authenicated 
+backbone of identity and access management
+backend acts like a rule enforcer
+once authenicated the server checks your assigned rules permissions or access-levels
+then determines what website or app you are allowed to visit and what actions you can perform
+
+authenication(confirms users are who they say they are)
+authorization(gives users permissions to access a resource)
+
+different authenication methods (username and password,token based auth,single-sign-on,multi-factor auth and more)
+
+
+diffrenet types of authorization models
+rbac(role based access control)->grants access based on predefined roles employees can access only what they need to do with their jobs nothing more
+abac(attribute based access control)->granular approach granting access based on user's attributes like location,device or security clearance
+rebac(relationship based access control)->relationship between users and resources a project owner may have full access while a colleague has
+view only permissions
+mac(mandatory access control)->commonly used by governmenet agencies strictly limiting access based on classification levels and security labels 
+dac(discretionary access control)->allows resources owners to control who has access offering more flexibility but requiring careful oversight
+
+
+to pick the right  authorization model
+security requirements
+user experience
+Complexity
+scalability
+
+
+
