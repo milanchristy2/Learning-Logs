@@ -1216,3 +1216,11 @@ model=whisper.load_model("base")
 
 res=model.transcribe("test.mp3")
 print(res["text"])
+
+ROLE BASED ACCESS CONTROL 
+it is about restricting access based on user roles
+for example 
+admin-> access for everything
+user-> limited access
+guest-> very limited access 
+In fastapi we can implement this using dependencies 
