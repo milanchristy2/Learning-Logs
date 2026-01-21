@@ -1224,3 +1224,24 @@ admin-> access for everything
 user-> limited access
 guest-> very limited access 
 In fastapi we can implement this using dependencies 
+
+
+JWT(JSON WEB TOKENS)
+lets your identity travel the web securely
+a stolen json web token gives hackers full access 
+robust method for securely transmitting information between parties as JSON objects 
+json-> lightweight data interchange format (backbone)
+
+payload->store the data which will further be transmitted 
+header,payload,signature and each are base64 encoded and separated by period(.)
+header consists of token type and algorithm being used
+payload stores the claims(statements about entities typically the user with additional data)
+three types of claims->registered,public and private
+registered claims->predefined like issuer,expiration time and subject
+payload are encrypted using json web encryption(jwe)
+sensitive information should never travel in jwt payload unless it is encrypted first
+signing->is like sealing an envelope
+two types of signing alogirthms-> symmetric algorithms like HMACSHA256(used a shared secret key for both
+signing and verification)
+assymmetric alogirthms->RSA uses a public/private key pair where private key signs the token and public key
+verifies it
