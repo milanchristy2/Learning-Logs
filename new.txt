@@ -1246,9 +1246,309 @@ signing and verification)
 assymmetric alogirthms->RSA uses a public/private key pair where private key signs the token and public key
 verifies it
 
+remainder:
+
 12 factors app methodology
 cpu architecture
 arm processors
 
 
 poetry is used for dependencies for LIBROAPI assignement(1)
+race conditions and deadlocks. 
+
+
+Concurrency handling
+fastapi handles first request and then process the second request using time.sleep()
+fastapi can also handle two requests at the same time using asyncio.sleep()
+using just a simple function the hello from first and second request is printed but the bye from first
+is printed first and the next bye is printed the second time
+
+blocking and non-blocking i/o bound operations
+asyncio.sleep()-> non-blocking i/o operation it can awaited
+when awaited the function executes pauses while waiting for the operation to
+finish.During this pause the event loop can handle other tasks like processing 
+the next request
+time.sleep()->bloacking i/o operation cannot be awaited
+function execution cannot be paused instead the event loop is paused while 
+waiting for the result
+
+for using time(first endpoint) the requests are processed sequentially
+for using asyncio(second endpoint) the requests are processed concurrently
+for using a normal python(third endpoint) function the requests are processed parallelly
+
+why is that?
+uvicorn-> main thread
+coroutines(endpoints) runs directly in the event loop which runs in the main thread
+
+first endpoint run in the main contains blocking i/o opereations it cannot be paused
+in the middle
+request 1
+  hello
+  bye
+request 2
+  hello
+  bye
+
+second endpoint ran in the main thread but however it is non blocking i/o operation the
+function execution can be paused
+request 1
+  hello
+request 2
+  hello
+request 1
+  bye
+request 2
+  bye
+
+third endpoint(normal functions) are executed in a seperate thread one different from main thread
+requests are handled parallelly
+best practices 
+use async def for endpoints having non blocking i/o opearations(db query,external api requests)
+use normal functions for endpoints having blocking i/o operations like db client library which
+does have await feature
+
+Understanding the N+1 Problem
+What is the N+1 Problem?
+The N+1 problem occurs when an application fetches a list of objects (e.g., a list of products, users, or posts) and then, 
+for each object in the list, makes an additional database query to retrieve related data. 
+For example, consider a Java application that displays a list of blog posts along with the author information. 
+If the application fetches a list of posts and then makes a separate query to retrieve the author information 
+for each post, it would result in N+1 queries, where N is the number of posts. 
+This inefficient querying pattern can quickly lead to a large number of database hits.
+
+Causes of the N+1 Problem
+Several factors contribute to the N+1 problem:
+
+1. Lazy Loading: Many Java ORM (Object-Relational Mapping) frameworks like Hibernate use lazy loading by default. Lazy loading means that related data is fetched from the database only when it is accessed. This can lead to N+1 queries when developers access related data for each item in a collection.
+
+2. Inefficient Queries: Developers may write code that fetches related data in a loop, resulting in multiple database queries when a single optimized query would suffice.
+
+3. Lack of Batch Fetching: Batch fetching, a technique provided by some ORM frameworks, allows you to retrieve related data for multiple objects in a single query. Developers often overlook or misuse this feature.
+
+
+1. Eager Loading
+Use eager loading to fetch related data upfront, reducing the need for additional queries. Most ORM frameworks provide mechanisms to specify when and how related data should be loaded, allowing you to optimize database queries.
+
+2. Batch Fetching
+Make use of batch fetching capabilities provided by your ORM framework to retrieve related data in batches rather than one-by-one. This can significantly reduce the number of database queries.
+
+3. DTO Projections
+Consider using Data Transfer Object (DTO) projections to fetch only the necessary data from the database. This approach can help minimize the amount of data retrieved, resulting in faster queries.
+
+4. Caching
+Implement caching mechanisms to store frequently accessed data in memory. Caching can help reduce the need for repetitive database queries, improving response times and reducing database load.
+
+5. Pagination and Filtering
+Implement pagination and filtering to limit the number of records retrieved in a single query. This can be particularly useful when dealing with large datasets.
+
+6. Query Optimization
+Regularly review and optimize your database queries. Analyze query execution plans and use database profiling tools to identify and resolve performance bottlenecks.
+
+One-sentence takeaway
+
+In FastAPI, the N+1 problem is solved by eager loading relationships using joinedload or selectinload in SQLAlchemy queries.
+
+redis(remote directory server)
+redis is an in-memory database which runs completely on the your machine's ram
+redis is a powerhouse supporting a wide range of different data sturctures from
+strings to lists to different types of indexes
+it relies on caching
+redis is a no-sql database and completely different from other databases like mongodb
+it has json structure dependent on key-value pairs
+if computer crashes you will all the data that redis currently has because ram is volatile
+redis increases the application's performance and speed
+
+TTL(time-to-live)
+which means the data will delete after a certian amount of time
+
+startup -> when the application runs for the first time we're going to connect to our app
+our redis environment and our httpx for calling api endpoints from another application
+shutdown-> close down that connection to our redis environment
+
+commands:
+redis-cli
+127.0.0.1:6379> set name Eric
+OK
+127.0.0.1:6379> get name
+"Eric"
+127.0.0.1:6379> set os Mac
+OK
+127.0.0.1:6379> get os
+"Mac"
+127.0.0.1:6379> del os
+(integer) 1
+127.0.0.1:6379> get os
+(nil)
+127.0.0.1:6379> exists os
+(integer) 0
+127.0.0.1:6379> exists name
+(integer) 1
+127.0.0.1:6379> keys *
+1) "name"
+127.0.0.1:6379> set dog Milo
+OK
+127.0.0.1:6379> keys *
+1) "name"
+2) "dog"
+127.0.0.1:6379> ttl name 10
+(error) ERR wrong number of arguments for 'ttl' command
+127.0.0.1:6379> expire name 10
+(integer) 1
+127.0.0.1:6379> get name
+(nil)
+127.0.0.1:6379> setex dog 10 Milo
+OK
+127.0.0.1:6379> get dog
+"Milo"
+127.0.0.1:6379> get do
+(nil)
+127.0.0.1:6379> get dog
+"Milo"
+127.0.0.1:6379> get dog
+(nil)
+127.0.0.1:6379> get posts
+"[{\"userId\": 1, \"id\": 1, \"title\": }]...
+
+a database dump.rdb saved on disk
+
+Testing:
+tests comes in many forms like performance tests or end-to-end tests
+but the most common tests is Unit Testing
+unit testing->test a single unit of functionality at a time
+in most cases that unit is a function 
+we can define requirements for a function in a code
+you can fix the function to make it unit pass or
+we are confident
+
+code coverage
+identify different class of inputs and write a test case for each of those
+
+one example
+
+def get_score(num):
+  if num<=2:
+    score=num
+  elif num==3:
+    score=4
+  elif num==4:
+    score=7
+  else:
+    score=num*2
+  return score
+
+import unittest
+
+class Test(unittest.TestClass)
+
+  def test_negative():
+    score=get_score(-2)
+    self.assertEqual(score,0) (score,return value)
+  
+  def test_0():
+    score=get_score(0)
+    self.assertEqual(score,0)
+
+  def test_2():
+    score=get_score(2)
+    self.assertEqual(score,2) 
+  
+  def test_3():
+    score=get_score(3)
+    self.assertEqual(score,4)
+  
+  def test_4():
+    score=get_score(4)
+    self.assertEqual(score,7)
+  
+  def test_5():
+    score=get_score(5)
+    self.assertEqual(score,10)
+
+
+command to use unittest-> python -m unittest filename
+command to use pytest-> pytest -v main.py and then pytest main.py
+
+functional testing->verifies that a feature works as expected according to
+requirements testing endpoint,inputs and outputs 
+
+one example
+
+
+from fastapi import FastAPI,HttpException,Header
+from fastapi.testclient import TestClient
+
+app=FastAPI()
+client=TestClient(app)
+
+secret_key="secret-123"
+
+@app.get("/protected")
+def protected(api_key:str=Header(...)):
+    if api_key!=secret_key:
+      raise HttpException(status_code=401,detail="invalid api key")
+    {"message":"access granted"}
+  
+def test_success():
+  response=client.get("/protected",headers={"api_key":"secret_key"})
+  assert response.status_code==200
+
+def test_failure():
+  response=client.get("/protected",headers={"api_key":"wrong_key"})
+  assert response.status_code==401
+
+
+  streamlit-> frontend(ui)
+  open source python library that makes it easy to create and share beautiful custom web apps
+  for machine learning and data science
+
+  to run the file use command-> streamlit run filename
+
+  it works by evaluating your file from top to bottom and render each thing in the order they appear
+import streamlit as st
+st.write()
+st.text_input()[input elements]
+x=st.text_input()
+st.write(f" {x}")
+you can create buttons sliders and dropdowns as well
+st.button()
+st.write("this is #h2 title") markdown formatting by default
+st.slider()->sliders
+st.file_uploader()->file upload
+st.camera_input()->for taking the input from camera   
+@st.cache_data()->caching
+st.progress()->progress_bar
+st.line_chart()->for creating line charts
+st.markdown("# this is h2 title",text_alignment=center or left or right)->for markdown text
+st.set_page_config(page_title=" ",page_icon=" ")
+st.badge(text,color=" ")
+st.caption(text,color=" ",width="stretch")
+st.divider()
+st.code()
+
+
+websockets->two real time applications communicate with each other
+websocket is a communication protocol that allows client and server to maintain a presistent,
+bidrectional connection over a single tcp connection
+
+In simple terms
+
+Client and server stay connected
+
+Both can send messages at any time
+
+No need to open a new request for each message
+
+a simple implementation using fastapi
+
+from fastapi import WebSocket,FastAPI
+
+app=FastAPI()
+
+@app.websocket("/ws")
+async def endpoint(websocket:WebSocket):
+    await websocket.accept()
+
+    while True:
+      data=await websocket.receive_text()
+      await websocket.send_text(f"you said :{data}")
+
