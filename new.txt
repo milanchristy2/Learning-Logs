@@ -1552,3 +1552,39 @@ async def endpoint(websocket:WebSocket):
       data=await websocket.receive_text()
       await websocket.send_text(f"you said :{data}")
 
+
+
+Arrange-Act-Assert(Unit Testing)
+pattern for formatting your unit tests to make them more organized 
+arange step->you prepare everything you need to run your unit test
+act step->execute your unit test
+assert step->verfiy that you got back the expected result
+
+
+key attributes for good unit test
+test should have a meaningful name
+arrange the data(single arrange block for each and every test)
+test the case should have a single act block
+each and every test block should have a single assert statement
+
+
+8 ways to improve RAG
+metadata filter:use metadata filtering(here by date)
+semantic chunking:use semantic chunking strategy hard chunking boundary left out of information
+visual language model:get text captions for images with a vision language model(vlm)
+query decomposition:complex queries can be decomposed into sub queries
+better embeddings:use better embedding model
+lexical/bm25:add lexical search or bm25 to do the exact pattern matching
+add reranker:improve retrieval results with a reranker
+instruction following reranker:to improve on recency consider an instruction following reranker 
+
+
+reranking improves the answer accuracy by using a cross encoder model to reorder the top-k retireved documents
+based on relevance rather than 
+
+top_k means the system will return the 5 most relevant chunks of content based on the query
+it balances precision and recall
+
+query handling in rag refers to the process of transforming a user's input into a form that 
+enables accurate retreival of relevant information from external knowledge sources before 
+generating a response This step is critical for reducing hallucinations and improving answer accuracy. 
