@@ -1587,4 +1587,33 @@ it balances precision and recall
 
 query handling in rag refers to the process of transforming a user's input into a form that 
 enables accurate retreival of relevant information from external knowledge sources before 
-generating a response This step is critical for reducing hallucinations and improving answer accuracy. 
+generating a response This step is critical for reducing hallucinations and improving answer accuracy.
+
+existing RAG methods
+naive rag->documents chunk them and save them to vector store(pinecode or chromadb or faiss)
+keep in mind that to improve accuracy you need to choose the chunk size and chunk overlap correctly
+problem is lack of relevant information cosine similarity is used and llm might hallucinate
+graph rag->defines relationship between chunks unstrcutured data -> structured document to the 
+knowledge graph with all the nodes and relationship we define manually. LLM will retreive the most
+related chunks to your query with all the nodes and relationship those details will be added context
+window
+limitations-> unstrcutured to structured manually redudant information will be passed to context
+window
+light rag->use llm call to turn unstrcutured to structured data and then creating the knowledge graph
+solves redudant infromation using indexing graph
+segment the data chunk them and save them into vectorstore(not only raw text someother information)
+(like entity node relationship) for knowledge graph and these will be extracted from LLM
+LLM call we are using for pre-processing step
+then the knowledge graph will be constructed using those information
+still seeing some redudant infromation in context window
+path rag->based on light rag we have flow based learning algorithm with distance awareness
+it is a method that simplied the graph by removing less important  connections
+it measures how much information flow passes through each link or relationship
+also considers the distance that how far the distance exists from that node to a specific node
+that we are looking for extra information
+path rag removes redudant information
+agentic rag->supervisor agent to allow the memory agent(naive rag or another type of rag) and research
+agent to search anything we want
+supervisor agent uses research agent to find those responses and then those responses will be saved 
+in the memory agent for future
+the supervisor agent will retreive it from the memory agent instead of using custom agent
